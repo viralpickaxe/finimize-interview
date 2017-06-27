@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import CurrencyInput from './CurrencyInput'
+import NumberInput from './NumberInput'
 import SliderInput from './SliderInput'
 import DisplayGraph from './DisplayGraph'
+import OutputCurrencySelector from './OutputCurrencySelector'
 import './App.css';
 
 import calculatorApp from '../state'
@@ -19,9 +21,12 @@ class App extends Component {
 
     componentDidMount() {
 
+        // Fetch the calculations from the server for initial values
         this.fetchCalculations()
 
+        // When the calculator values are updated in state
         calculatorApp.subscribe(() => {
+            // Refetch the calculations
             this.fetchCalculations()
         })
         
@@ -29,8 +34,10 @@ class App extends Component {
 
     fetchCalculations() {
 
+        // Get the state from redux
         let calculator_state = calculatorApp.getState().calculator
 
+        // Make a post request to the API
         axios.post("http://localhost:3001/api/calculate",{
             amount_saved: calculator_state.amount_saved,
             additional_monthly: calculator_state.additional_monthly,
@@ -40,6 +47,7 @@ class App extends Component {
         })
         .then((response) => {
             
+            // Update the local state with graph data
             this.setState({calculator_data: response.data})
 
         })
@@ -48,8 +56,12 @@ class App extends Component {
 
     render() {
 
+        let calculator_state = calculatorApp.getState().calculator,
+            graph_state = calculatorApp.getState().graph
+        
         return (
             <div className="App">
+
                 <div className="header-banner">
                     <h1 className="fmz-white-font">Finimize Interest Rate Calculator</h1>
                 </div>
@@ -60,12 +72,23 @@ class App extends Component {
                     <p className="input-label">How much will you save each month?</p>
                     <CurrencyInput id="additional_monthly" />
 
+                    <p className="input-label">Estimate Value over how many months?</p>
+                    <NumberInput id="total_months" />
+
                     <p className="input-label">How much interest will you earn per month?</p>
                     <SliderInput id="interest_percent" />
                 </div>
                 <div className="financial-display">
                     {this.state.calculator_data ? <DisplayGraph data={this.state.calculator_data}/> : null}
                 </div>
+                <div className="financial-summary">
+                    {this.state.calculator_data ? <p>
+                        In <strong>{calculator_state.total_months} months</strong>, your initial investment of <strong>£{calculator_state.amount_saved}</strong>
+                        {calculator_state.additional_monthly ? <span> (And your additional monthly savings of <strong>£{calculator_state.additional_monthly}</strong>) </span> : " "}
+                        will be worth <strong>{(this.state.calculator_data[this.state.calculator_data.length-1].value * graph_state.exchange).toFixed(2)}</strong> <OutputCurrencySelector />
+                    </p> : null}
+                </div>
+
             </div>
         );
 

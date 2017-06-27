@@ -18,25 +18,21 @@ describe('calculate', () => {
                 })
         })
 
-        it('it should properly calculate ', (done) => {
-
-            let amount_saved = 100,
-                additional_monthly = 0,
-                interest_percent = 1.01,
-                interest_payout = 1,
-                total_months = 5
+        it('it should properly calculate value after x months', (done) => {
 
             chai.request(server)
                 .post('/api/calculate')
                 .send({
-                    amount_saved,
-                    additional_monthly,
-                    interest_percent,
-                    interest_payout,
-                    total_months
+                    amount_saved: 1000,
+                    additional_monthly: 100,
+                    interest_percent: 1.02,
+                    interest_payout: 1,
+                    total_months: 12
                 })
                 .end((err, res) => {
                     res.should.have.status(201)
+                    let response_value = res.body[res.body.length - 1].value
+                    chai.assert(response_value > 2636 && response_value < 2637, "Did not work out correct interest")
                     done()
                 })
         })

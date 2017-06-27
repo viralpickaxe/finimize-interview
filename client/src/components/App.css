@@ -46,6 +46,13 @@ p {
 	padding: 20px;
 }
 
+.financial-display {
+
+	width: 90%;
+	margin: 75px auto 30px auto;
+
+}
+
 .financial-inputs {
 	padding: 20px;
 }
@@ -53,4 +60,8 @@ p {
 .input-label {
 	margin-bottom: 4px;
 	margin-top: 12px;
+}
+
+.financial-summary {
+	padding-left: 20px;
 }
