@@ -3,6 +3,7 @@ import axios from 'axios'
 import CurrencyInput from './CurrencyInput'
 import NumberInput from './NumberInput'
 import SliderInput from './SliderInput'
+import DropdownInput from './DropdownInput'
 import DisplayGraph from './DisplayGraph'
 import OutputCurrencySelector from './OutputCurrencySelector'
 import './App.css';
@@ -41,7 +42,7 @@ class App extends Component {
         axios.post("http://localhost:3001/api/calculate",{
             amount_saved: calculator_state.amount_saved,
             additional_monthly: calculator_state.additional_monthly,
-            interest_percent: 1 + (calculator_state.interest_percent / 100),
+            interest_percent: calculator_state.interest_percent,
             interest_payout: calculator_state.interest_payout,
             total_months: calculator_state.total_months
         })
@@ -56,6 +57,7 @@ class App extends Component {
 
     render() {
 
+        // Pull in the state from redux for ease of use
         let calculator_state = calculatorApp.getState().calculator,
             graph_state = calculatorApp.getState().graph
         
@@ -75,7 +77,7 @@ class App extends Component {
                     <p className="input-label">Estimate Value over how many months?</p>
                     <NumberInput id="total_months" />
 
-                    <p className="input-label">How much interest will you earn per month?</p>
+                    <p className="input-label">How much interest will you earn per <DropdownInput id="interest_payout" options={[{text: "Month", value: 1}, {text: "Quarter", value: 4}, {text: "Year", value: 12}]} />?</p>
                     <SliderInput id="interest_percent" />
                 </div>
                 <div className="financial-display">

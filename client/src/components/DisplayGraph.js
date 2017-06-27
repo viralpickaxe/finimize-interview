@@ -9,6 +9,7 @@ export default class DisplayGraph extends Component {
 	render() {
 		var { data } = this.props
 
+		// Adjust all the results using a selected currency exchange
 		data = data.map((month) => {
 			return {
 				month: month.month,

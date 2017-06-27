@@ -31,7 +31,7 @@ module.exports = function(req, res) {
         
         // Work out the total value for the month after interest by timxing the starting value and the interest
         // Intrest could be the monthly, quarterly or yearly interest so divide to work out the month interest
-        let after_interest = initial_amount * (interest_percent/interest_payout)
+        let after_interest = initial_amount * (1 + ((interest_percent/100)/interest_payout))
 
         // Add this month to the array
         months.push({

@@ -25,7 +25,7 @@ describe('calculate', () => {
                 .send({
                     amount_saved: 1000,
                     additional_monthly: 100,
-                    interest_percent: 1.02,
+                    interest_percent: 2,
                     interest_payout: 1,
                     total_months: 12
                 })
