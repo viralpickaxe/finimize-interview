@@ -2,23 +2,20 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './SliderInput.css'
 
+import calculatorApp from '../state'
+
 export default class SliderInput extends Component {
 
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			value: props.defaultValue
-		}
-	}
-
 	handleChange(e) {
-		const value = e.target.value
-		this.setState({value})
+		calculatorApp.dispatch({
+			type: 'UPDATE_PARAM',
+			id: this.props.id,
+			value: Number(e.target.value)
+		})
 	}
 
 	render() {
-		const { value } = this.state
+		let value = calculatorApp.getState().calculator[this.props.id]
 
 		return (
 			<div className="fmz-slider">
@@ -35,5 +32,6 @@ export default class SliderInput extends Component {
 }
 
 SliderInput.propTypes = {
-	defaultValue: PropTypes.number
+	id: PropTypes.string
 }
+

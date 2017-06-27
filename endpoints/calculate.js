@@ -13,9 +13,17 @@ module.exports = function(req, res) {
         }
     ]
 
+    // Following the basic compound formula of
+    // T <- S * ( 1 + R/F )^t
+    // T - Total
+    // S - Start
+    // R - Interest rate
+    // F - Rate payout frequency
+    // t - Time, in our case as we iterate over each month is always 1
+
     for ( var i = 0; i < total_months; i++ ) {
 
-        var initial_amount = months[months.length - 1] + additional_monthly
+        var initial_amount = months[months.length - 1].value + additional_monthly
         
         let after_interest = initial_amount * (interest_percent/interest_payout)
 

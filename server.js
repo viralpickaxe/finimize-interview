@@ -1,5 +1,6 @@
 // Import dependancies
 let express = require('express')
+let cors = require('cors')
 let body_parser = require('body-parser')
 
 // Setup express server
@@ -10,6 +11,9 @@ app.set('port', (process.env.PORT || 3001))
 
 // Parse application/json 
 app.use(body_parser.json())
+
+// Setup cors
+app.use(cors())
 
 // Import routes
 let calculate_endpoint = require('./endpoints/calculate')
