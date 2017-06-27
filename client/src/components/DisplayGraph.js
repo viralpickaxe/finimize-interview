@@ -9,11 +9,15 @@ export default class DisplayGraph extends Component {
 	render() {
 		var { data } = this.props
 
+		// Get the active exchange rate
+		let state = calculatorApp.getState().calculator
+		let currency_exchange_rate = state.currencies_data[state.currency]
+
 		// Adjust all the results using a selected currency exchange
 		data = data.map((month) => {
 			return {
 				month: month.month,
-				value: month.value * calculatorApp.getState().graph.exchange
+				value: month.value * currency_exchange_rate
 			}
 		})
 

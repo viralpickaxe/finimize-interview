@@ -1,56 +1,22 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
 import calculatorApp from '../state'
+import { update_value } from '../state/actions'
 
 export default class OutputCurrencySelector extends Component {
 
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            curriencies: {
-                "GBP": 1
-            }
-        }
-    }
-
-    componentDidMount() {
-        this.fetchCurrencies()
-    }
-
-    fetchCurrencies() {
-
-        axios.get("http://api.fixer.io/latest?base=GBP")
-            .then((response) => {
-                
-                this.setState({
-                    curriencies: {
-                        "GBP": 1,
-                        ...response.data.rates
-                    }
-                })
-
-            })
-
-    }
-
 	handleChange(e) {
 
-        let selected = e.target.value
-
-		calculatorApp.dispatch({
-			type: 'UPDATE_OUTPUT_CURRENCY',
-			currency: selected,
-            exchange: this.state.curriencies[selected]
-		})
+		calculatorApp.dispatch(
+            update_value("currency", e.target.value)
+        )
 
 	}
 
 	render() {
         var curriencies = []
 
-        for ( var currency in this.state.curriencies ) {
+        for ( var currency in calculatorApp.getState().calculator.currencies_data ) {
             
             curriencies.push(
                 <option key={currency} value={currency}>{currency}</option>
@@ -59,7 +25,7 @@ export default class OutputCurrencySelector extends Component {
         }
 
 		return (
-			<select className="output-currency-selector" onChange={this.handleChange.bind(this)} value={calculatorApp.getState().graph.currency}>
+			<select className="output-currency-selector" onChange={this.handleChange.bind(this)} value={calculatorApp.getState().calculator.currency}>
 				{curriencies}
 			</select>
 		)

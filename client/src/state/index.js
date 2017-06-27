@@ -1,13 +1,10 @@
-import { combineReducers, createStore } from 'redux'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk';
 import calculator from './calculator'
-import graph from './graph'
 
 const calculatorApp = createStore(
-    combineReducers({
-        calculator,
-        graph
-    }),
-    window["__REDUX_DEVTOOLS_EXTENSION__"] && window["__REDUX_DEVTOOLS_EXTENSION__"]()
+    combineReducers({calculator}),
+    applyMiddleware(thunk)
 )
 
 export default calculatorApp

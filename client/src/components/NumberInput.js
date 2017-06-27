@@ -3,15 +3,14 @@ import PropTypes from 'prop-types'
 import './NumberInput.css'
 
 import calculatorApp from '../state'
+import { update_value } from '../state/actions'
 
 export default class NumberInput extends Component {
 
 	handleChange(e) {
-		calculatorApp.dispatch({
-			type: 'UPDATE_PARAM',
-			id: this.props.id,
-			value: Number(e.target.value)
-		})
+		calculatorApp.dispatch(
+			update_value(this.props.id, Number(e.target.value))
+		)
 	}
 
 	render() {
